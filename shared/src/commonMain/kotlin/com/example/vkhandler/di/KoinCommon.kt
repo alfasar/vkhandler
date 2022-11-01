@@ -12,6 +12,7 @@ fun initKoin(
     modules(
         appModule,
         databaseModule,
+        repositoryModule,
         platformModule
     )
 }
