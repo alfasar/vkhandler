@@ -29,6 +29,7 @@ kotlin {
                     implementation(ktor_client_cio)
                     implementation(ktor_client_content)
                     implementation(ktor_serialization)
+                    implementation(ktor_logging)
 
                     // Coroutines
                     implementation(coroutines_core)
@@ -68,6 +69,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(Deps.ktor_client_ios)
+                implementation(Deps.coroutines_core)
                 implementation("com.squareup.sqldelight:runtime:$sqlDelightVersion")
                 implementation("com.squareup.sqldelight:native-driver:$sqlDelightVersion")
             }

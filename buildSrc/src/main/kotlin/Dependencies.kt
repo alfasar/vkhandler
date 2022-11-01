@@ -51,6 +51,7 @@ object Deps {
     const val ktor_client_ios = "io.ktor:ktor-client-ios:${Versions.ktorVersion_version}"
     const val ktor_client_content = "io.ktor:ktor-client-content-negotiation:${Versions.ktorVersion_version}"
     const val ktor_serialization = "io.ktor:ktor-serialization-kotlinx-json:${Versions.ktorVersion_version}"
+    const val ktor_logging = "io.ktor:ktor-client-logging:2.0.0-beta-1"
 
     const val multiplatform_settings = "com.russhwolf:multiplatform-settings:${Versions.settings_version}"
 

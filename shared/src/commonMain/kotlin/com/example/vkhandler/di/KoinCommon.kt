@@ -7,10 +7,12 @@ import org.koin.core.module.Module
 expect val platformModule: Module
 
 fun initKoin(
-    appModule: Module
+    appModule: Module,
+    viewModels: Module = viewModelModule
 ): KoinApplication = startKoin {
     modules(
         appModule,
+        viewModels,
         databaseModule,
         repositoryModule,
         platformModule

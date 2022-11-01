@@ -4,6 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.vkhandler.di.initKoin
+import com.example.vkhandler.presentation.PhotoViewModel
+import com.example.vkhandler.presentation.PostViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 class App : Application() {
@@ -17,6 +20,10 @@ class App : Application() {
                     "vkhandler",
                     Context.MODE_PRIVATE
                 ) }
+            },
+            viewModels = module {
+                viewModel { PhotoViewModel(get()) }
+                viewModel { PostViewModel(get()) }
             }
         )
     }
