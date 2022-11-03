@@ -25,7 +25,11 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion =
+            Versions.compose_compiler_version
     }
 }
 
@@ -41,16 +45,29 @@ dependencies {
         implementation(lifecycle_common)
         implementation(lifecycle_service)
 
-        implementation(fragment)
-
         implementation(coroutines)
 
         implementation(coil)
 
-        implementation(navigation_fragment)
-        implementation(navigation_ui)
-
         implementation(koin_android)
         implementation(koin_test)
     }
+    with(Deps.Compose) {
+        implementation(compiler)
+        implementation(runtime)
+        implementation(runtime_livedata)
+        implementation(ui)
+        implementation(uiUtil)
+        implementation(tooling)
+        implementation(foundation)
+        implementation(foundationLayout)
+        implementation(material)
+        implementation(material_icons)
+        implementation(activity)
+        implementation(koin)
+    }
+
+    implementation("androidx.navigation:navigation-compose:2.4.1")
+
+
 }
