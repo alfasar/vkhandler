@@ -37,6 +37,10 @@ class VkHandlerRepository(
         VkApi.makePost(message)
     }
 
+    suspend fun deletePost(postId: String) {
+        VkApi.deletePost(postId)
+    }
+
     private suspend fun insertPhotos(photoResponse: PhotoResponse) {
         photoDatasource.insertPhotos(photoResponse.toData())
     }

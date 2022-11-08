@@ -20,6 +20,7 @@ private const val AUTHORIZATION_URL = "https://oauth.vk.com/authorize"
 private const val GET_PHOTOS = "$BASE_URL/method/photos.getAll"
 private const val GET_POSTS = "$BASE_URL/method/wall.get"
 private const val SEND_POST = "$BASE_URL/method/wall.post"
+private const val DELETE_POST = "$BASE_URL/method/wall.delete"
 
 // Parameters
 private const val CLIENT_ID = "51424366"
@@ -52,7 +53,7 @@ object VkApi {
     }
 
     suspend fun fetchAllPhotos(): BaseResponse<PhotosResponse> =
-        client.get{
+        client.get {
             url(GET_PHOTOS)
             parameter("user_id", USER_ID)
             parameter("access_token", TOKEN)
@@ -75,6 +76,16 @@ object VkApi {
             url(SEND_POST)
             parameter("access_token", TOKEN)
             parameter("message", message)
+            parameter("v", API_VERSION)
+        }
+    }
+
+    // todo make it work
+    suspend fun deletePost(postId: String) {
+        client.post {
+            url(DELETE_POST)
+            parameter("access_token", TOKEN)
+            parameter("post_id", postId)
             parameter("v", API_VERSION)
         }
     }

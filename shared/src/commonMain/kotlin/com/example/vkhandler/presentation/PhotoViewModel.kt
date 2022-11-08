@@ -1,6 +1,6 @@
 package com.example.vkhandler.presentation
 
-import com.example.vkhandler.domain.interceptors.GetPhotosInterceptor
+import com.example.vkhandler.domain.interceptors.photo.GetPhotosInterceptor
 import com.example.vkhandler.domain.model.Photo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

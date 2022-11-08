@@ -1,4 +1,4 @@
-package com.example.vkhandler.domain.interceptors
+package com.example.vkhandler.domain.interceptors.photo
 
 import com.example.vkhandler.data.repositories.VkHandlerRepository
 import com.example.vkhandler.domain.model.Photo
@@ -6,9 +6,5 @@ import com.example.vkhandler.domain.model.Photo
 class GetPhotosInterceptor(
     private val vkHandlerRepository: VkHandlerRepository
 ) {
-
-    suspend operator fun invoke(): List<Photo> {
-        return vkHandlerRepository.getPhotosRemote()
-    }
-
+    suspend operator fun invoke(): List<Photo> = vkHandlerRepository.getPhotosRemote()
 }
