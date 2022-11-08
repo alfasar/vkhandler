@@ -16,15 +16,15 @@ class VkHandlerRepository(
 ) {
 
     suspend fun getPhotosRemote(): List<Photo> {
-        val photosResponse = VkApi.fetchAllPhotos()
-        photosResponse.items.forEach { insertPhotos(it) }
-        return photosResponse.items.map { it.toModel() }
+        val photosResponse = VkApi.fetchAllPhotos().response
+        photosResponse?.items?.forEach { insertPhotos(it) }
+        return photosResponse?.items?.map { it.toModel() } ?: emptyList()
     }
 
     suspend fun getPostsRemote(): List<Post> {
-        val postsResponse = VkApi.fetchAllPosts()
-        postsResponse.items.forEach { insertPosts(it) }
-        return postsResponse.items.map { it.toModel() }
+        val postsResponse = VkApi.fetchAllPosts().response
+        postsResponse?.items?.forEach { insertPosts(it) }
+        return postsResponse?.items?.map { it.toModel() } ?: emptyList()
     }
 
     suspend fun getPhotosLocal(): List<Photo> =

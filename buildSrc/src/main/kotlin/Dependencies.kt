@@ -12,10 +12,10 @@ object Versions {
     const val compile_sdk = 32
 
     const val android_gradle_plugin_version = "7.2.2"
-    const val kotlin_gradle_plugin_version = "1.7.10"
+    const val kotlin_gradle_plugin_version = "1.6.10"
 
     // Shared
-    const val serialization_version = "1.7.10"
+    const val serialization_version = "1.6.10"
     const val ktorVersion_version = "2.1.1"
     const val koin_version = "3.2.0"
     const val settings_version = "1.0.0-RC"
@@ -28,7 +28,10 @@ object Versions {
     const val fragment_version = "1.5.2"
     const val navigation_version = "2.5.2"
     const val coroutines_version = "1.6.4"
-    const val coil_version = "2.2.0"
+    const val coil_version = "2.2.2"
+    const val compose_compiler_version= "1.1.0-rc02"
+    const val compose_version= "1.1.0-rc01"
+    const val activity_compose = "1.4.0"
 }
 
 object Deps {
@@ -70,10 +73,25 @@ object Deps {
 
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines_version}"
 
-    const val coil = "io.coil-kt:coil:${Versions.coil_version}"
+    const val coil = "io.coil-kt:coil-compose:${Versions.coil_version}"
 
     const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation_version}"
     const val navigation_ui = "androidx.navigation:navigation-ui-ktx:${Versions.navigation_version}"
 
     const val koin_android = "io.insert-koin:koin-android:${Versions.koin_version}"
+
+    object Compose {
+        const val ui = "androidx.compose.ui:ui:${Versions.compose_version}"
+        const val uiUtil = "androidx.compose.ui:ui-util:${Versions.compose_version}"
+        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.compose_version}"
+        const val foundation = "androidx.compose.foundation:foundation:${Versions.compose_version}"
+        const val material = "androidx.compose.material:material:${Versions.compose_version}"
+        const val material_icons = "androidx.compose.material:material-icons-extended:${Versions.compose_version}"
+        const val runtime = "androidx.compose.runtime:runtime:${Versions.compose_version}"
+        const val compiler = "androidx.compose.compiler:compiler:${Versions.compose_version}"
+        const val runtime_livedata = "androidx.compose.runtime:runtime-livedata:${Versions.compose_version}"
+        const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose_version}"
+        const val activity = "androidx.activity:activity-compose:${Versions.activity_compose}"
+        const val koin = "io.insert-koin:koin-androidx-compose:${Versions.koin_version}"
+    }
 }

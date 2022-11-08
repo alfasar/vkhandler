@@ -1,5 +1,6 @@
 package com.example.vkhandler.data.network.api
 
+import com.example.vkhandler.data.network.response.BaseResponse
 import com.example.vkhandler.data.network.response.PhotosResponse
 import com.example.vkhandler.data.network.response.PostsResponse
 import io.ktor.client.HttpClient
@@ -37,6 +38,7 @@ object VkApi {
     private val nonStrictJson = Json {
         isLenient = true
         ignoreUnknownKeys = true
+        prettyPrint = true
     }
 
     private val client: HttpClient = HttpClient {
@@ -49,7 +51,7 @@ object VkApi {
         }
     }
 
-    suspend fun fetchAllPhotos() : PhotosResponse =
+    suspend fun fetchAllPhotos(): BaseResponse<PhotosResponse> =
         client.get{
             url(GET_PHOTOS)
             parameter("user_id", USER_ID)
@@ -61,7 +63,7 @@ object VkApi {
             parameter("need_hidden", FALSE)
         }.body()
 
-    suspend fun fetchAllPosts() : PostsResponse =
+    suspend fun fetchAllPosts(): BaseResponse<PostsResponse> =
         client.get {
             url(GET_POSTS)
             parameter("access_token", TOKEN)

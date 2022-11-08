@@ -11,12 +11,4 @@ class PhotoViewModel(
     private val vkHandlerRepository: VkHandlerRepository
 ) : CommonViewModel() {
 
-    private val photos = MutableSharedFlow<List<Photo>>()
-
-    init {
-        CoroutineScope(Dispatchers.Default).launch {
-            photos.emit(vkHandlerRepository.getPhotosRemote())
-        }
-    }
-
 }
