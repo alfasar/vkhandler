@@ -3,6 +3,7 @@ package com.example.vkhandler.android.ui.vk
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,7 +34,12 @@ private fun PhotoContentView(
 
     val photoList = viewModel.photos.collectAsState(initial = emptyList()).value
 
-    Box {
+    Box(
+        contentAlignment = Alignment.TopCenter,
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxSize()
+    ) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
