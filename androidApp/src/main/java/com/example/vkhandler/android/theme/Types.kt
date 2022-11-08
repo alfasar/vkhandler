@@ -1,4 +1,4 @@
-package com.example.vkhandler.android.ui.theme
+package com.example.vkhandler.android.theme
 
 import androidx.compose.runtime.Composable
 

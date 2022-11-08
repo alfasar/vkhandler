@@ -11,7 +11,6 @@ import com.example.vkhandler.presentation.Screen
 
 @Composable
 fun AppNavHost(
-
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
@@ -21,10 +20,11 @@ fun AppNavHost(
         modifier = modifier,
     ) {
         composable(Screen.PhotoScreen.route) {
-            PhotoView(onPostClickButton = { navController.navigate(Screen.PostScreen.route) })
+            PhotoView()
         }
+
         composable(Screen.PostScreen.route) {
-            PostView(onUpButtonClick = { navController.popBackStack() })
+            PostView()
         }
     }
 }

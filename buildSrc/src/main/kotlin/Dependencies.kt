@@ -28,7 +28,7 @@ object Versions {
     const val fragment_version = "1.5.2"
     const val navigation_version = "2.5.2"
     const val coroutines_version = "1.6.4"
-    const val coil_version = "2.2.0"
+    const val coil_version = "2.2.2"
     const val compose_compiler_version= "1.1.0-rc02"
     const val compose_version= "1.1.0-rc01"
     const val activity_compose = "1.4.0"
@@ -73,7 +73,7 @@ object Deps {
 
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines_version}"
 
-    const val coil = "io.coil-kt:coil:${Versions.coil_version}"
+    const val coil = "io.coil-kt:coil-compose:${Versions.coil_version}"
 
     const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation_version}"
     const val navigation_ui = "androidx.navigation:navigation-ui-ktx:${Versions.navigation_version}"
