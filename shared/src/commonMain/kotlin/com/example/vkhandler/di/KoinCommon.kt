@@ -15,6 +15,7 @@ fun initKoin(
         viewModels,
         databaseModule,
         repositoryModule,
-        platformModule
+        platformModule,
+        interceptorModule
     )
 }

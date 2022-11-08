@@ -70,4 +70,12 @@ object VkApi {
             parameter("v", API_VERSION)
         }.body()
 
+    suspend fun makePost(message: String) {
+        client.post {
+            url(SEND_POST)
+            parameter("access_token", TOKEN)
+            parameter("message", message)
+            parameter("v", API_VERSION)
+        }
+    }
 }

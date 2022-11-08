@@ -30,8 +30,12 @@ class VkHandlerRepository(
     suspend fun getPhotosLocal(): List<Photo> =
         photoDatasource.getAllPhotos().map { it.toModel() }
 
-    suspend fun getAllPosts(): List<Post> =
+    suspend fun getPostsLocal(): List<Post> =
         postDatasource.getAllPosts().map { it.toModel() }
+
+    suspend fun makePost(message: String) {
+        VkApi.makePost(message)
+    }
 
     private suspend fun insertPhotos(photoResponse: PhotoResponse) {
         photoDatasource.insertPhotos(photoResponse.toData())

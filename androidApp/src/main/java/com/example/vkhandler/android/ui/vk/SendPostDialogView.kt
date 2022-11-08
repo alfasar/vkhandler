@@ -17,9 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.vkhandler.presentation.PostViewModel
+import org.koin.androidx.compose.getViewModel
+
+private const val EMPTY_STRING = ""
 
 @Composable
 fun SendPostDialog(
+    viewModel: PostViewModel = getViewModel(),
     onDismiss: () -> Unit
 ) = Dialog(onDismissRequest = onDismiss) {
 
@@ -31,7 +36,7 @@ fun SendPostDialog(
             .background(Color.White)
     ) {
 
-        val textFieldValue = remember { mutableStateOf("") }
+        val textFieldValue = remember { mutableStateOf(EMPTY_STRING) }
 
         Text(
             text = "Write your post down below",
@@ -50,7 +55,10 @@ fun SendPostDialog(
         Spacer(modifier = Modifier.padding(vertical = 5.dp))
         Button(
             onClick = {
-                // TODO: Add send post logic
+                if (textFieldValue.value.isNotEmpty()) {
+                    viewModel.makePost(textFieldValue.value)
+                    textFieldValue.value = EMPTY_STRING
+                }
             },
             modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally)
