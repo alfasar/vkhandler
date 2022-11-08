@@ -23,9 +23,8 @@ class App : Application() {
             },
             viewModels = module {
                 viewModel { PhotoViewModel(get()) }
-                viewModel { PostViewModel(get()) }
+                viewModel { PostViewModel(get(), get(), get()) }
             }
         )
     }
-
 }

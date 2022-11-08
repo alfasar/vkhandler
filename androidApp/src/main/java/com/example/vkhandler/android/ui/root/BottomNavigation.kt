@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Textsms
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import com.example.vkhandler.presentation.Screen
@@ -44,6 +45,8 @@ fun BottomNavigationBar(navController: NavController) {
 
             BottomNavigationItem(
                 selected = selectedItem.value == index,
+                selectedContentColor = Color.White,
+                unselectedContentColor = Color.DarkGray,
                 onClick = {
                     when (selectedItem.value) {
                         0 -> navController.navigate(item.route)
