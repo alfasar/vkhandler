@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="application_name">VkHandler</string>
+
+    <string name="write_post_title">Write your post down below</string>
+    <string name="send_post">Send post</string>
+
+</resources>
