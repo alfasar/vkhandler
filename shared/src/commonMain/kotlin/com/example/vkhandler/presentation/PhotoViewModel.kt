@@ -1,6 +1,7 @@
 package com.example.vkhandler.presentation
 
 import com.example.vkhandler.domain.interceptors.photo.GetPhotosInterceptor
+import com.example.vkhandler.domain.interceptors.photo.GetPhotosLocalInterceptor
 import com.example.vkhandler.domain.model.Photo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,7 +10,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class PhotoViewModel(
-    private val getPhotosInterceptor: GetPhotosInterceptor
+    private val getPhotosInterceptor: GetPhotosInterceptor,
+    private val getPhotosLocalInterceptor: GetPhotosLocalInterceptor
 ) : CommonViewModel() {
 
     private val _photos = MutableSharedFlow<List<Photo>>()

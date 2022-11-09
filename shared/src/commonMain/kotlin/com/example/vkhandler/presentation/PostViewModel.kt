@@ -2,6 +2,7 @@ package com.example.vkhandler.presentation
 
 import com.example.vkhandler.domain.interceptors.post.DeletePostInterceptor
 import com.example.vkhandler.domain.interceptors.post.GetPostsInterceptor
+import com.example.vkhandler.domain.interceptors.post.GetPostsLocalInterceptor
 import com.example.vkhandler.domain.interceptors.post.MakePostInterceptor
 import com.example.vkhandler.domain.model.Post
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class PostViewModel(
     private val getPostsInterceptor: GetPostsInterceptor,
+    private val getPostsLocalInterceptor: GetPostsLocalInterceptor,
     private val makePostInterceptor: MakePostInterceptor,
     private val deletePostInterceptor: DeletePostInterceptor
 ) : CommonViewModel() {
@@ -21,10 +23,14 @@ class PostViewModel(
 
     init {
         CoroutineScope(Dispatchers.Default).launch {
-            val postsRemote = getPostsInterceptor.invoke()
-            _posts.emit(postsRemote)
+            getPostsLocal()
+            getPostsRemote()
         }
     }
+
+    private suspend fun getPostsRemote() { _posts.emit(getPostsInterceptor.invoke()) }
+
+    private suspend fun getPostsLocal() { _posts.emit(getPostsLocalInterceptor.invoke()) }
 
     fun makePost(message: String) {
         CoroutineScope(Dispatchers.Default).launch {

@@ -14,7 +14,6 @@ import kotlin.native.concurrent.ThreadLocal
 
 // Host
 private const val BASE_URL = "https://api.vk.com"
-private const val AUTHORIZATION_URL = "https://oauth.vk.com/authorize"
 
 // Paths
 private const val GET_PHOTOS = "$BASE_URL/method/photos.getAll"
@@ -24,10 +23,8 @@ private const val DELETE_POST = "$BASE_URL/method/wall.delete"
 
 // Parameters
 private const val CLIENT_ID = "51424366"
-private const val REDIRECT_URI = "https://oauth.vk.com/blank.html"
 private const val API_VERSION = "5.131"
 private const val SCOPE = "photos,offline,wall"
-private const val FALSE = 0
 
 // Authorization
 private const val USER_ID = "749802626"
@@ -58,10 +55,6 @@ object VkApi {
             parameter("user_id", USER_ID)
             parameter("access_token", TOKEN)
             parameter("v", API_VERSION)
-            parameter("extended", FALSE)
-            parameter("photo_sizes", FALSE)
-            parameter("no_service_albums", FALSE)
-            parameter("need_hidden", FALSE)
         }.body()
 
     suspend fun fetchAllPosts(): BaseResponse<PostsResponse> =
@@ -80,7 +73,6 @@ object VkApi {
         }
     }
 
-    // todo make it work
     suspend fun deletePost(postId: String) {
         client.post {
             url(DELETE_POST)

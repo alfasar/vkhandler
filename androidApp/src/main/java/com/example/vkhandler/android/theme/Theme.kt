@@ -5,7 +5,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 
 @Composable
 fun AppTheme(
@@ -15,19 +14,17 @@ fun AppTheme(
 
     val colors = if (isSystemInDarkTheme) {
         darkColors().copy(
-            primary = primaryDarkColor,
-            primaryVariant = primaryLightColor,
-            secondary = secondaryDarkColor,
-            secondaryVariant = secondaryLightColor,
-            onPrimary = Color.White
+            primary = primary,
+            primaryVariant = primaryVariantDark,
+            secondary = secondary,
+            secondaryVariant = secondaryVariantDark
         )
     } else {
         lightColors().copy(
-            primary = primaryColor,
-            primaryVariant = primaryLightColor,
-            secondary = secondaryColor,
-            secondaryVariant = secondaryLightColor,
-            onPrimary = Color.Black
+            primary = primary,
+            primaryVariant = primaryVariantLight,
+            secondary = secondary,
+            secondaryVariant = secondaryVariantLight
         )
     }
 

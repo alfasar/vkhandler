@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -26,6 +27,7 @@ import com.example.vkhandler.android.theme.getCardColor
 import com.example.vkhandler.presentation.PostViewModel
 import org.koin.androidx.compose.getViewModel
 
+@ExperimentalMaterialApi
 @Composable
 fun PostView(
     viewModel: PostViewModel = getViewModel(),
@@ -35,6 +37,7 @@ fun PostView(
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
 private fun PostContentView(viewModel: PostViewModel) {
 
@@ -51,7 +54,10 @@ private fun PostContentView(viewModel: PostViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 5.dp)
-                        .clipToBounds()
+                        .clipToBounds(),
+                    onClick = {
+                        // TODO: Process post edit
+                    }
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -61,11 +67,15 @@ private fun PostContentView(viewModel: PostViewModel) {
                         Text(
                             text = post.text,
                             fontWeight = FontWeight.SemiBold,
+                            color = Color.DarkGray,
                             modifier = Modifier
                                 .padding(15.dp)
+                                .weight(1f)
                         )
                         IconButton(
-                            onClick = { viewModel.deletePost(post.id.toString()) },
+                            onClick = {
+                                viewModel.deletePost(post.id.toString())
+                            },
                             modifier = Modifier
                         ) {
                             Icon(
