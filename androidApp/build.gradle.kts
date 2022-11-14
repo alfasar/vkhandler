@@ -65,6 +65,7 @@ dependencies {
         implementation(material_icons)
         implementation(activity)
         implementation(koin)
+        implementation(navigation)
     }
 
     implementation("androidx.navigation:navigation-compose:2.4.1")

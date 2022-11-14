@@ -4,6 +4,11 @@
     <string name="application_name">VkHandler</string>
 
     <string name="write_post_title">Write your post down below</string>
+    <string name="edit_post_title">Set new value</string>
     <string name="send_post">Send post</string>
+    <string name="edit_post_confirm">Confirm</string>
+    <string name="delete_post">Are you sure to remove this post?</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
 
 </resources>

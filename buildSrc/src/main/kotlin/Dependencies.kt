@@ -3,6 +3,7 @@ const val androidPlugin = "android"
 const val androidLib = "com.android.library"
 const val multiplatform = "multiplatform"
 const val serialization = "plugin.serialization"
+const val sqlDelight = "com.squareup.sqldelight"
 
 object Versions {
 
@@ -32,6 +33,7 @@ object Versions {
     const val compose_compiler_version= "1.1.0-rc02"
     const val compose_version= "1.1.0-rc01"
     const val activity_compose = "1.4.0"
+    const val navigation_compose = "2.4.1"
 }
 
 object Deps {
@@ -93,5 +95,6 @@ object Deps {
         const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Versions.compose_version}"
         const val activity = "androidx.activity:activity-compose:${Versions.activity_compose}"
         const val koin = "io.insert-koin:koin-androidx-compose:${Versions.koin_version}"
+        const val navigation = "androidx.navigation:navigation-compose:${Versions.navigation_compose}"
     }
 }
