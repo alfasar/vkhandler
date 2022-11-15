@@ -12,17 +12,20 @@ import com.example.vkhandler.util.mappers.toModel
 
 class VkHandlerRepository(
     private val photoDatasource: PhotoDatasource,
-    private val postDatasource: PostDatasource
+    private val postDatasource: PostDatasource,
+    private val preferenceRepository: PreferenceRepository
 ) {
 
+    private val token = preferenceRepository.token
+
     suspend fun getPhotosRemote(): List<Photo> {
-        val photosResponse = VkApi.fetchAllPhotos().response
+        val photosResponse = VkApi.fetchAllPhotos(token).response
         photosResponse?.items?.forEach { insertPhotos(it) }
         return photosResponse?.items?.map { it.toModel() } ?: emptyList()
     }
 
     suspend fun getPostsRemote(): List<Post> {
-        val postsResponse = VkApi.fetchAllPosts().response
+        val postsResponse = VkApi.fetchAllPosts(token).response
         postsResponse?.items?.forEach { insertPosts(it) }
         return postsResponse?.items?.map { it.toModel() } ?: emptyList()
     }
@@ -34,11 +37,15 @@ class VkHandlerRepository(
         postDatasource.getAllPosts().map { it.toModel() }
 
     suspend fun makePost(message: String) {
-        VkApi.makePost(message)
+        VkApi.makePost(token, message)
+    }
+
+    suspend fun editPost(postId: String, message: String) {
+        VkApi.editPost(token, postId, message)
     }
 
     suspend fun deletePost(postId: String) {
-        VkApi.deletePost(postId)
+        VkApi.deletePost(token, postId)
     }
 
     private suspend fun insertPhotos(photoResponse: PhotoResponse) {

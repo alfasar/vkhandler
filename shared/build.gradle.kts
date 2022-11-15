@@ -2,7 +2,7 @@ plugins {
     kotlin(multiplatform)
     id(androidLib)
     kotlin(serialization) version Versions.serialization_version
-    id("com.squareup.sqldelight")
+    id(sqlDelight)
 }
 
 kotlin {

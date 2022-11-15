@@ -63,7 +63,7 @@ fun AppScaffold() {
                 else -> {}
             }
         },
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(navController = navController) }
     ) {
         AppNavHost(
             navController = navController,
