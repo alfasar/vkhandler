@@ -3,6 +3,7 @@ package com.example.vkhandler.di
 import com.example.vkhandler.domain.interceptors.post.DeletePostInterceptor
 import com.example.vkhandler.domain.interceptors.photo.GetPhotosInterceptor
 import com.example.vkhandler.domain.interceptors.photo.GetPhotosLocalInterceptor
+import com.example.vkhandler.domain.interceptors.post.EditPostInterceptor
 import com.example.vkhandler.domain.interceptors.post.GetPostsInterceptor
 import com.example.vkhandler.domain.interceptors.post.GetPostsLocalInterceptor
 import com.example.vkhandler.domain.interceptors.post.MakePostInterceptor
@@ -15,7 +16,8 @@ val interceptorModule = module {
 
     single { GetPostsInterceptor(get()) }
     single { MakePostInterceptor(get()) }
+    single { EditPostInterceptor(get()) }
     single { DeletePostInterceptor(get()) }
-    single { GetPhotosLocalInterceptor(get()) }
+    single { GetPostsLocalInterceptor(get()) }
 
 }
