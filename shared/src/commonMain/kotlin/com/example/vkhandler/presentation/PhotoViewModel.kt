@@ -18,11 +18,10 @@ class PhotoViewModel(
     private val _photos = MutableSharedFlow<List<Photo>>()
     val photos: SharedFlow<List<Photo>> = _photos
 
-    suspend fun get(): List<Photo> {
-        return sharedScope(DispatcherIO).async {
+    suspend fun getPhotos(): List<Photo> =
+        sharedScope(DispatcherIO).async {
             getPhotosInterceptor.invoke()
         }.await()
-    }
 
     init {
         sharedScope(DispatcherIO).launch {

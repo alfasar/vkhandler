@@ -3,82 +3,62 @@ package com.example.vkhandler.data.network.api
 import com.example.vkhandler.data.network.response.BaseResponse
 import com.example.vkhandler.data.network.response.PhotosResponse
 import com.example.vkhandler.data.network.response.PostsResponse
-import io.ktor.client.HttpClient
+import com.example.vkhandler.util.extensions.client
 import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.parameter
-import io.ktor.client.request.url
 import io.ktor.client.request.get
 import io.ktor.client.request.post
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
+import io.ktor.client.request.url
+import io.ktor.client.request.parameter
+import io.ktor.http.URLProtocol
+import io.ktor.http.URLBuilder
+import io.ktor.http.Parameters
 import kotlin.native.concurrent.ThreadLocal
 
-// Schema-Host
-private const val BASE_URL = "https://api.vk.com"
+private const val HOST = "api.vk.com"
+private const val METHOD = "method"
 
-// Paths
-private const val GET_PHOTOS = "$BASE_URL/method/photos.getAll"
-private const val GET_POSTS = "$BASE_URL/method/wall.get"
-private const val SEND_POST = "$BASE_URL/method/wall.post"
-private const val EDIT_POST = "$BASE_URL/method/wall.edit"
-private const val DELETE_POST = "$BASE_URL/method/wall.delete"
+private const val access_token = "access_token"
+private const val version = "v"
+private const val api_version = "5.131"
 
-// Parameters
-private const val ACCESS_TOKEN = "access_token"
-private const val CLIENT_ID = "51424366"
-private const val VERSION = "v"
-private const val API_VERSION = "5.131"
-private const val SCOPE = "photos,offline,wall"
+private const val get_photos = "photos.getAll"
+private const val get_posts = "wall.get"
+private const val send_post = "wall.post"
+private const val edit_post = "wall.edit"
+private const val delete_post = "wall.delete"
+
+//private const val CLIENT_ID = "51424366"
+//private const val SCOPE = "photos,offline,wall"
 
 @ThreadLocal
 internal object VkApi {
 
-    private val nonStrictJson = Json {
-        isLenient = true
-        ignoreUnknownKeys = true
-        prettyPrint = true
-    }
-
-    private val client: HttpClient = HttpClient {
-        install(ContentNegotiation) {
-            json(nonStrictJson)
+    private fun baseUrl(token: String, path: String) = URLBuilder(
+        protocol = URLProtocol.HTTPS,
+        host = HOST,
+        pathSegments = listOf(METHOD, path),
+        parameters = Parameters.build {
+            append(access_token, token)
+            append(version, api_version)
         }
-        install(Logging) {
-            logger = Logger.DEFAULT
-            level = LogLevel.ALL
-        }
-    }
+    ).buildString()
 
     suspend fun fetchAllPhotos(token: String): BaseResponse<PhotosResponse> =
-        client.get {
-            url(GET_PHOTOS)
-            parameter(ACCESS_TOKEN, token)
-            parameter(VERSION, API_VERSION)
-        }.body()
+        client.get(baseUrl(token, get_photos)).body()
 
     suspend fun fetchAllPosts(token: String): BaseResponse<PostsResponse> =
-        client.get {
-            url(GET_POSTS)
-            parameter(ACCESS_TOKEN, token)
-            parameter(VERSION, API_VERSION)
-        }.body()
+        client.get(baseUrl(token, get_posts)).body()
 
     suspend fun makePost(token: String, message: String) {
         client.post {
-            url(SEND_POST)
-            parameter(ACCESS_TOKEN, token)
-            parameter(VERSION, API_VERSION)
+            url(baseUrl(token, send_post))
             parameter("message", message)
         }
     }
 
     suspend fun editPost(token: String, postId: String, message: String) {
         client.post {
-            url(EDIT_POST)
-            parameter(ACCESS_TOKEN, token)
-            parameter(VERSION, API_VERSION)
+            url(baseUrl(token, edit_post))
             parameter("post_id", postId)
             parameter("message", message)
         }
@@ -86,9 +66,7 @@ internal object VkApi {
 
     suspend fun deletePost(token: String, postId: String) {
         client.post {
-            url(DELETE_POST)
-            parameter(ACCESS_TOKEN, token)
-            parameter(VERSION, API_VERSION)
+            url(baseUrl(token, delete_post))
             parameter("post_id", postId)
         }
     }

@@ -30,11 +30,18 @@ class PostViewModel(
         }
     }
 
-    private suspend fun getPostsRemote() {
-        _posts.emit(getPostsInterceptor.invoke())
+    private suspend fun getPostsLocal() {
+        val pendingPosts = getPostsLocalInterceptor()
+        if (pendingPosts.isNotEmpty()) {
+            _posts.emit(pendingPosts)
+        } else {
+            getPostsRemote()
+        }
     }
 
-    private suspend fun getPostsLocal() { _posts.emit(getPostsLocalInterceptor.invoke()) }
+    private suspend fun getPostsRemote() {
+        _posts.emit(getPostsInterceptor())
+    }
 
     fun makePost(message: String) {
         sharedScope(DispatcherIO).launch {
