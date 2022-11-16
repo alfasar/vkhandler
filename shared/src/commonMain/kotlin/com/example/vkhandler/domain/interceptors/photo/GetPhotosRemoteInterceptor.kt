@@ -1,10 +1,9 @@
 package com.example.vkhandler.domain.interceptors.photo
 
 import com.example.vkhandler.data.repositories.VkHandlerRepository
-import com.example.vkhandler.domain.model.Photo
 
-class GetPhotosInterceptor(
+class GetPhotosRemoteInterceptor(
     private val vkHandlerRepository: VkHandlerRepository
 ) {
-    suspend operator fun invoke(): List<Photo> = vkHandlerRepository.getPhotosRemote()
+    suspend operator fun invoke(): Result<Unit> = vkHandlerRepository.updatePhotos()
 }
