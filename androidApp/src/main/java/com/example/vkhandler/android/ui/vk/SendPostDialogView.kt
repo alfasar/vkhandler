@@ -30,7 +30,7 @@ private const val MAX_LINES = 6
 @Composable
 fun SendPostDialog(
     viewModel: PostViewModel = getViewModel(),
-    postId: String? = null,
+    postId: Int? = null,
     onDismiss: Fun
 ) = Dialog(onDismissRequest = onDismiss) {
 

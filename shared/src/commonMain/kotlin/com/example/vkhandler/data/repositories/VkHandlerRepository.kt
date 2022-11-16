@@ -7,8 +7,12 @@ import com.example.vkhandler.data.network.response.PhotoResponse
 import com.example.vkhandler.data.network.response.PostResponse
 import com.example.vkhandler.domain.model.Photo
 import com.example.vkhandler.domain.model.Post
+import com.example.vkhandler.util.extensions.mapSuspendedCatching
+import com.example.vkhandler.util.helpers.ResponseHelper.getResponseResult
 import com.example.vkhandler.util.mappers.toData
 import com.example.vkhandler.util.mappers.toModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class VkHandlerRepository(
     private val photoDatasource: PhotoDatasource,
@@ -16,18 +20,24 @@ class VkHandlerRepository(
     private val preferenceRepository: PreferenceRepository
 ) {
 
-    private val token = preferenceRepository.token
+    suspend fun updatePhotos(): Result<Unit> =
+        getResponseResult { VkApi.fetchAllPhotos() }
+            .mapSuspendedCatching { photosResponse ->
+                photosResponse.items.forEach { insertPhotos(it) }
+            }
 
-    suspend fun getPhotosRemote(): List<Photo> {
-        val photosResponse = VkApi.fetchAllPhotos(token).response
-        photosResponse?.items?.forEach { insertPhotos(it) }
-        return photosResponse?.items?.map { it.toModel() } ?: emptyList()
-    }
+    suspend fun updatePosts(): Result<Unit> =
+        getResponseResult { VkApi.fetchAllPosts() }
+            .mapSuspendedCatching { postsResponse ->
+                postsResponse.items.forEach { insertPosts(it) }
+            }
 
-    suspend fun getPostsRemote(): List<Post> {
-        val postsResponse = VkApi.fetchAllPosts(token).response
-        postsResponse?.items?.forEach { insertPosts(it) }
-        return postsResponse?.items?.map { it.toModel() } ?: emptyList()
+    private suspend fun getPostById(postId: Int): Result<Unit> {
+        val userId = preferenceRepository.userId
+        return getResponseResult { VkApi.getPostById("${userId}_$postId") }
+            .mapSuspendedCatching {
+                postDatasource.insertPosts(it.first().toData())
+            }
     }
 
     suspend fun getPhotosLocal(): List<Photo> =
@@ -36,16 +46,24 @@ class VkHandlerRepository(
     suspend fun getPostsLocal(): List<Post> =
         postDatasource.getAllPosts().map { it.toModel() }
 
+    fun getPostsAsFlow(): Flow<List<Post>> =
+        postDatasource.getPostsAsFlow().map {
+            it.map { postEntity -> postEntity.toModel() }
+        }
+
     suspend fun makePost(message: String) {
-        VkApi.makePost(token, message)
+        getResponseResult { VkApi.makePost(message) }
+            .onSuccess { getPostById(it.postId) }
     }
 
     suspend fun editPost(postId: String, message: String) {
-        VkApi.editPost(token, postId, message)
+        VkApi.editPost(postId, message)
+        postDatasource.updatePost(postId.toInt(), message)
     }
 
     suspend fun deletePost(postId: String) {
-        VkApi.deletePost(token, postId)
+        VkApi.deletePost(postId)
+        postDatasource.deletePostById(postId.toInt())
     }
 
     private suspend fun insertPhotos(photoResponse: PhotoResponse) {

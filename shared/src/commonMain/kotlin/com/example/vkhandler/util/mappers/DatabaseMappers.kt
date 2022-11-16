@@ -7,6 +7,7 @@ import com.example.vkhandler.data.network.response.PostResponse
 
 fun PostResponse.toData() = PostEntity(
     id = this.id,
+    date = this.date,
     postType = this.postType,
     text = this.text
 )

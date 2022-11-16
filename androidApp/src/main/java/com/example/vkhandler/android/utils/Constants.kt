@@ -4,4 +4,6 @@ object Constants {
 
     const val EMPTY_STRING = ""
 
+    const val DEFAULT_ID = -1
+
 }

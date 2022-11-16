@@ -1,6 +1,6 @@
 CREATE TABLE PhotoEntity(
     date INTEGER NOT NULL,
-    id INTEGER NOT NULL,
+    id INTEGER NOT NULL PRIMARY KEY,
     height INTEGER NOT NULL,
     url TEXT NOT NULL,
     type TEXT NOT NULL,
@@ -17,7 +17,8 @@ INSERT OR REPLACE INTO PhotoEntity
 VALUES ?;
 
 CREATE TABLE PostEntity(
-    id INTEGER AS Int NOT NULL,
+    id INTEGER AS Int NOT NULL PRIMARY KEY,
+    date INTEGER NOT NULL,
     postType TEXT NOT NULL,
     text TEXT NOT NULL
 );
@@ -29,3 +30,12 @@ FROM PostEntity;
 insertPosts:
 INSERT OR REPLACE INTO PostEntity
 VALUES ?;
+
+updatePost:
+UPDATE PostEntity
+SET text = :newValue
+WHERE id = :postId;
+
+deletePostById:
+DELETE FROM PostEntity
+WHERE id = :postId;

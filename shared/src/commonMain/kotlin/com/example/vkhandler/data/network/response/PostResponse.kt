@@ -11,6 +11,7 @@ data class PostsResponse(
 @Serializable
 data class PostResponse(
     @SerialName("id") val id: Int,
+    @SerialName("date") val date: Long,
     @SerialName("post_type") val postType: String,
     @SerialName("text") val text: String
 )

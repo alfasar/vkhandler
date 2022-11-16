@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.vkhandler.android.R
 import com.example.vkhandler.android.theme.getCardColor
-import com.example.vkhandler.android.utils.Constants.EMPTY_STRING
+import com.example.vkhandler.android.utils.Constants.DEFAULT_ID
 import com.example.vkhandler.presentation.PostViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -50,20 +50,21 @@ fun PostView(
 @Composable
 private fun PostContentView(viewModel: PostViewModel) {
 
-    val postList = viewModel.posts.collectAsState(initial = emptyList())
+    // val postList = viewModel.posts.collectAsState(initial = emptyList())
+    val postFlow = viewModel.postFlow.collectAsState(initial = emptyList())
 
     val postToDelete = remember {
-        mutableStateOf(EMPTY_STRING)
+        mutableStateOf(DEFAULT_ID)
     }
 
     val postToEdit = remember {
-        mutableStateOf(EMPTY_STRING)
+        mutableStateOf(DEFAULT_ID)
     }
 
     Box(modifier = Modifier.padding(16.dp)) {
         LazyColumn {
             items(
-                items = postList.value,
+                items = postFlow.value,
                 key = { it.id }
             ) { post ->
                 Card(
@@ -73,7 +74,7 @@ private fun PostContentView(viewModel: PostViewModel) {
                         .padding(vertical = 5.dp)
                         .clipToBounds(),
                     onClick = {
-                        postToEdit.value = post.id.toString()
+                        postToEdit.value = post.id
                     }
                 ) {
                     Row(
@@ -91,7 +92,7 @@ private fun PostContentView(viewModel: PostViewModel) {
                         )
                         IconButton(
                             onClick = {
-                                postToDelete.value = post.id.toString()
+                                postToDelete.value = post.id
                             },
                             modifier = Modifier
                         ) {
@@ -106,12 +107,12 @@ private fun PostContentView(viewModel: PostViewModel) {
             }
         }
 
-        if (postToDelete.value.isNotEmpty()) {
+        if (postToDelete.value > 0) {
             fun dismiss() {
-                postToDelete.value = EMPTY_STRING
+                postToDelete.value = DEFAULT_ID
             }
             AlertDialog(
-                onDismissRequest = { postToDelete.value = EMPTY_STRING },
+                onDismissRequest = { postToDelete.value = DEFAULT_ID },
                 title = {
                     Text(
                         text = stringResource(id = R.string.delete_post),
@@ -138,11 +139,11 @@ private fun PostContentView(viewModel: PostViewModel) {
                     .padding(8.dp)
             )
         }
-        if (postToEdit.value.isNotEmpty()) {
+        if (postToEdit.value > 0) {
             SendPostDialog(
                 viewModel = viewModel,
                 postId = postToEdit.value,
-                onDismiss = { postToEdit.value = EMPTY_STRING }
+                onDismiss = { postToEdit.value = DEFAULT_ID }
             )
         }
     }

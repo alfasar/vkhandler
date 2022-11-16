@@ -7,6 +7,6 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     single { PhotoViewModel(get(), get()) }
-    single { PostViewModel(get(), get(), get(), get(), get()) }
+    single { PostViewModel(get(), get(), get(), get()) }
 
 }

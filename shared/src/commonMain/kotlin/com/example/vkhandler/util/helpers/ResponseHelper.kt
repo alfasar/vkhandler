@@ -2,28 +2,38 @@ package com.example.vkhandler.util.helpers
 
 import com.example.vkhandler.data.network.response.BaseResponse
 import com.example.vkhandler.data.network.response.ErrorResponse
-import io.ktor.network.sockets.*
+import com.example.vkhandler.domain.isNetworkAvailable
+import com.example.vkhandler.util.exceptions.NoConnectionException
+import com.example.vkhandler.util.extensions.mapResult
+import io.ktor.network.sockets.SocketTimeoutException
+import kotlinx.coroutines.CancellationException
 
-object ResponseHelper {
+internal object ResponseHelper {
 
+    suspend fun <T : Any> getResponseResult(call: suspend () -> BaseResponse<T>): Result<T> =
+        networkCall(call).mapResult { getResult(it.response, null) }
 
-    private suspend fun <RESPONSE : Any> networkCall(
-        form: suspend () -> RESPONSE
-    ): Result<RESPONSE> {
-        return try {
-            Result.success(form.invoke())
+    private suspend fun <T : Any> networkCall(form: suspend () -> T): Result<T> =
+        try {
+            if (isNetworkAvailable()) {
+                Result.success(form.invoke()) // todo check network
+            } else {
+                Result.failure(NoConnectionException())
+            }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: SocketTimeoutException) {
             Result.failure(Exception(e))
+        } catch (e: Throwable) {
+            Result.failure(e)
         }
-    }
 
-    private suspend fun <RESPONSE: Any> getResult(
-        response: BaseResponse<RESPONSE>?,
+    private fun <T: Any> getResult(
+        response: T?,
         errorResponse: ErrorResponse?
-    ): Result<RESPONSE> =
+    ): Result<T> =
         when {
-            response?.response != null && errorResponse == null -> Result.success(response.response)
+            response != null && errorResponse == null -> Result.success(response)
             else -> Result.failure(Exception())
         }
-
 }
